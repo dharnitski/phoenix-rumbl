@@ -14,9 +14,10 @@ defmodule Rumbl.Video do
   @required_fields ~w(url title description)
   @optional_fields ~w(category_id)
 
-  def changeset(struct, params \\ %{}) do
-    struct
+  def changeset(model, params \\ %{}) do
+    model
     |> cast(params, @required_fields, @optional_fields)
+    |> assoc_constraint(:category)
   end
-  
+
 end
