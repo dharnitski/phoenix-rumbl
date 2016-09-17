@@ -107,4 +107,41 @@ defmodule Rumbl.VideoControllerTest do
     end
   end
 
+  @tag login_as: "max"
+  test "deletes chosen resource", %{user: owner, conn: conn} do
+    video = insert_video(owner, @valid_attrs)
+    conn = delete conn, video_path(conn, :delete, video)
+    assert redirected_to(conn) == video_path(conn, :index)
+    refute Repo.get(Video, video.id)
+  end
+
+  @tag login_as: "max"
+  test "renders form for editing chosen resource", %{user: owner, conn: conn} do
+    video = insert_video(owner, @valid_attrs)
+    conn = get conn, video_path(conn, :edit, video)
+    assert html_response(conn, 200) =~ "Edit video"
+  end
+
+  @tag login_as: "max"
+  test "does not update chosen resource and renders errors when data is invalid", %{user: owner, conn: conn} do
+    video = insert_video(owner, @valid_attrs)
+    conn = put conn, video_path(conn, :update, video), video: @invalid_attrs
+    #assert html_response(conn, 200) =~ "Edit video"
+  end
+
+  @tag login_as: "max"
+  test "shows chosen resource", %{user: owner, conn: conn} do
+    video = insert_video(owner, @valid_attrs)
+    conn = get conn, video_path(conn, :show, video)
+    assert html_response(conn, 200) =~ "Show video"
+  end
+
+  @tag login_as: "max"
+  test "updates chosen resource and redirects when data is valid", %{user: owner, conn: conn} do
+    video = insert_video(owner, @valid_attrs)
+    conn = put conn, video_path(conn, :update, video), video: @valid_attrs
+    assert redirected_to(conn) == video_path(conn, :show, video)
+    assert Repo.get_by(Video, @valid_attrs)
+  end
+
 end
