@@ -48,6 +48,11 @@ defmodule Rumbl.UserControllerTest do
     assert html_response(conn, 200) =~ "New User"
   end
 
+  test "does not create resource and renders errors when data is invalid", %{conn: conn} do
+    conn = post conn, user_path(conn, :create), user: @invalid_attrs
+    assert html_response(conn, 200) =~ "New User"
+  end
+
   test "creates resource and redirects when data is valid", %{conn: conn} do
     conn = post conn, user_path(conn, :create), user: @valid_attrs
     assert redirected_to(conn) == user_path(conn, :index)
