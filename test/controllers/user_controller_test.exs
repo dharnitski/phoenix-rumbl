@@ -36,4 +36,22 @@ defmodule Rumbl.UserControllerTest do
     #assert String.contains?(conn.resp_body, user.name)
     #assert String.contains?(conn.resp_body, other_user.name)
   end
+
+  @tag login_as: "max"
+  test "shows chosen resource", %{user: owner, conn: conn} do
+    conn = get conn, user_path(conn, :show, owner)
+    assert html_response(conn, 200) =~ "Showing User"
+  end
+
+  test "renders form for new resources", %{conn: conn} do
+    conn = get conn, user_path(conn, :new)
+    assert html_response(conn, 200) =~ "New User"
+  end
+
+  test "creates resource and redirects when data is valid", %{conn: conn} do
+    conn = post conn, user_path(conn, :create), user: @valid_attrs
+    assert redirected_to(conn) == user_path(conn, :index)
+    #assert Repo.get_by(User, @valid_attrs)
+  end
+
 end
