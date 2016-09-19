@@ -30,4 +30,5 @@ defmodule Rumbl.UserTest do
     assert pass_hash
     assert Comeonin.Bcrypt.checkpw(pass, pass_hash)
   end
+
 end
