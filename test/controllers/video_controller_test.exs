@@ -103,6 +103,13 @@ defmodule Rumbl.VideoControllerTest do
   @tag login_as: "max"
   test "renders page not found when id is nonexistent", %{conn: conn} do
     assert_error_sent 404, fn ->
+      get conn, video_path(conn, :show, 1000000000)
+    end
+  end
+
+  @tag login_as: "max"
+  test "renders error when id is not positive number", %{conn: conn} do
+    assert_error_sent 400, fn ->
       get conn, video_path(conn, :show, -1)
     end
   end

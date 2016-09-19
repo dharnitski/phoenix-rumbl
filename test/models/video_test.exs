@@ -21,7 +21,14 @@ defmodule Rumbl.VideoTest do
     changeset = Video.changeset(%Video{}, attrs)
     %{slug: slug} = changeset.changes
     assert changeset.valid?
-    assert slug == "my-title""
+    assert slug == "my-title"
   end
+
+  test "router path slugyfied" do
+    video = %Video{id: 1, slug: "hello"}
+    assert Rumbl.Router.Helpers.watch_path(%URI{}, :show, video) == "/watch/1-hello"
+  end
+
+  
 
 end
