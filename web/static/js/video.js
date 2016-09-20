@@ -7,12 +7,9 @@ let Video = {
     let videoId = element.getAttribute("data-id")
     let playerId = element.getAttribute("data-player-id")
     socket.connect()
-    //todo: code from book does not wark - call back nmethod is not fired
-    //Player.init(element.id, playerId, () => {
-    //  this.onReady(videoId, socket)
-    //})
-    Player.init(element.id, playerId)
-    this.onReady(videoId, socket)
+    Player.init(element.id, playerId, () => {
+      this.onReady(videoId, socket)
+    })
   },
 
   onReady(videoId, socket){
