@@ -33,7 +33,7 @@ defmodule Rumbl.VideoChannel do
       |> Rumbl.Annotation.changeset(params)
 
     case Repo.insert(changeset) do
-      {:ok, annotation} ->
+      {:ok, _annotation} ->
         broadcast! socket, "new_annotation", %{
           user: %{username: socket.assigns.user_id},
           body: params["body"],
